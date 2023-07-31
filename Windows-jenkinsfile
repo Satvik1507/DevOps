@@ -6,7 +6,7 @@ pipeline{
 		label 'AGENTNAME'
 	}
 	options{
-		buildDiscarder(logRotator(numToKeepStr: '10')) // n number of latest builds to be present in Jenkins console
+		buildDiscarder(logRotator(numToKeepStr: '10')) #n number of latest builds to be present in Jenkins console
 	}
 	
 	environment{
@@ -44,15 +44,15 @@ pipeline{
 		stage('File-Transfer'){
 			agent 'any'
 			steps{
-				unstash 'zipfile'  // Unzips the zip file
-				sh "pwd" 		   // Gives path of the unzipped file
-				sshagent(['SSH_key_name']) // SSH-key_name configured in Jeankins console
+				unstash 'zipfile'  #Unzips the zip file
+				sh "pwd" 		   #Gives path of the unzipped file
+				sshagent(['SSH_key_name']) #SSH-key_name configured in Jeankins console
 				{
 					echo "${workspace}"
 					
-					sh "scp -o StrictHostKeyChecking=no $workspace/*.zip CMuser_name@Machine_name.com:/e:/Dir_to_be_deployed"  // Copies the zip file to the desired location in VM
-					sh "ssh -o StrictHostKeyChecking=no CMuser_name@Machine_name.com powershell Expand-Archive -Path e:/Dir_to_be_deployed/Filename.zip -DestinationPath e:/Dir_to_be_deployed -Force"  // Unzips the zip file and copied the files to desired location
-					sh "ssh -o StrictHostKeyChecking=no CMuser_name@Machine_name.com iisrest /restart"  //Restarts iis-server
+					sh "scp -o StrictHostKeyChecking=no $workspace/*.zip CMuser_name@Machine_name.com:/e:/Dir_to_be_deployed"  #Copies the zip file to the desired location in VM
+					sh "ssh -o StrictHostKeyChecking=no CMuser_name@Machine_name.com powershell Expand-Archive -Path e:/Dir_to_be_deployed/Filename.zip -DestinationPath e:/Dir_to_be_deployed -Force"  #Unzips the zip file and copied the files to desired location
+					sh "ssh -o StrictHostKeyChecking=no CMuser_name@Machine_name.com iisrest /restart"  #Restarts iis-server
 				}
 			}
 		}
