@@ -106,7 +106,7 @@ pipeline{
 					sh "gradle buildComponent" 			#Builds the application
 					sh "gradle buildInstallTarFile"   	#Installs the build file to a tar   The above 2 lines may differ accorduing to the application
 					
-					sh "tax -xvf FILENAME.tar" 			#Extracts/Unzips the tar file 
+					sh "tar -xvf FILENAME.tar" 			#Extracts/Unzips the tar file 
 				}
 			}
 		}
